@@ -3,3 +3,6 @@ django-extensions==4.1
 phonenumbers==9.0.13
 pillow==11.3.0
 python-dotenv==1.0.1
+django-allauth[socialaccount]
+django-bootstrap5==25.2
+
