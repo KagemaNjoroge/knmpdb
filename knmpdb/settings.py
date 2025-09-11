@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # internal apps
     "core",
+    "console",
     # third party apps
     "django_extensions",
     "django_bootstrap5",
