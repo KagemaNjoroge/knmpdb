@@ -1,0 +1,39 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+
+{% block auth_subtitle %}Sign out of your account{% endblock %}
+
+{% block auth_content %}
+<div class="text-center">
+    <div class="auth-icon mb-4">
+        <i class="fas fa-sign-out-alt text-warning" style="font-size: 3rem;"></i>
+    </div>
+
+    <h4 class="mb-3">Are you sure you want to sign out?</h4>
+    <p class="text-muted mb-4">
+        You will need to sign in again to access your account and help find missing persons.
+    </p>
+
+    <form method="POST" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+
+        <div class="d-grid gap-2">
+            <button class="btn btn-warning btn-auth" type="submit">
+                <i class="fas fa-sign-out-alt me-2"></i>Yes, Sign Me Out
+            </button>
+            <a href="{% url 'core:web_index' %}" class="btn btn-outline-primary btn-auth">
+                <i class="fas fa-times me-2"></i>Cancel
+            </a>
+        </div>
+    </form>
+
+    <div class="mt-4">
+        <small class="text-muted">
+            Thank you for helping in the mission to find missing persons in Kenya.
+        </small>
+    </div>
+</div>
+{% endblock %}

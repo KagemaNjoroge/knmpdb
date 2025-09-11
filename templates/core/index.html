@@ -1,0 +1,326 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Kenya National Missing Persons Database - Helping Families Reunite{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 hero-content">
+                <h1 class="hero-title fade-in-up">Kenya National Missing Persons Database</h1>
+                <p class="hero-subtitle fade-in-up">Leveraging technology and community support to help families reunite
+                    with their loved ones across Kenya.</p>
+                <div class="d-flex gap-3 flex-wrap fade-in-up">
+                    <a href="#report" class="btn btn-light btn-lg px-4 py-3">
+                        <i class="fas fa-plus-circle me-2"></i>Report Missing Person
+                    </a>
+                    <a href="#missing-persons" class="btn btn-outline-light btn-lg px-4 py-3">
+                        <i class="fas fa-search me-2"></i>Search Database
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 hero-image text-center">
+                <img src="{% static 'images/hero-img.png' %}" alt="Technology helping find missing persons"
+                    class="img-fluid">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Stats -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <span class="stat-number">1,247</span>
+                    <span class="stat-label">Total Cases</span>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <span class="stat-number">892</span>
+                    <span class="stat-label">Found</span>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <span class="stat-number">355</span>
+                    <span class="stat-label">Active Cases</span>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Support</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Actions -->
+<section class="py-5" id="actions">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-4 fw-bold text-primary mb-3">How Can We Help?</h2>
+                <p class="lead text-muted">Take action today to help find missing persons in Kenya</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="action-card">
+                    <div class="action-icon report">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h4>Report Missing Person</h4>
+                    <p>File a missing person report with detailed information, photos, and last known location to help
+                        in the search efforts.</p>
+                    <a href="#report" class="btn btn-primary">Report Now</a>
+                    <div class="mt-3">
+                        <small class="text-muted">Share this page:</small>
+                        <div class="social-share mt-2">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
+                                class="social-btn facebook" target="_blank" title="Share on Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text=Help find missing persons in Kenya"
+                                class="social-btn twitter" target="_blank" title="Share on Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://wa.me/?text=Help find missing persons in Kenya: {{ request.build_absolute_uri }}"
+                                class="social-btn whatsapp" target="_blank" title="Share on WhatsApp">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <a href="https://t.me/share/url?url={{ request.build_absolute_uri }}&text=Help find missing persons in Kenya"
+                                class="social-btn telegram" target="_blank" title="Share on Telegram">
+                                <i class="fab fa-telegram-plane"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="action-card">
+                    <div class="action-icon found">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h4>Found Someone</h4>
+                    <p>If you have information about a missing person or have found someone, report it here to help
+                        reunite families.</p>
+                    <a href="#found" class="btn btn-success">Report Found</a>
+                    <div class="mt-3">
+                        <small class="text-muted">Emergency Contacts:</small>
+                        <div class="mt-2">
+                            <strong class="text-primary">Police: 999</strong><br>
+                            <strong class="text-primary">Hotline: 911</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="action-card">
+                    <div class="action-icon search">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h4>Search Database</h4>
+                    <p>Browse through our comprehensive database of missing persons. Use filters by location, age,
+                        gender, and date to find specific cases.</p>
+                    <a href="#missing-persons" class="btn btn-warning">Search Now</a>
+                    <div class="mt-3">
+                        <small class="text-muted">Recent Updates:</small>
+                        <div class="mt-2">
+                            <small class="text-success"><i class="fas fa-clock me-1"></i>Updated hourly</small><br>
+                            <small class="text-info"><i class="fas fa-map-marker-alt me-1"></i>All 47 Counties</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section bg-light" id="about">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="display-5 fw-bold text-primary mb-4">About Our Mission</h2>
+                <p class="lead mb-4">The Kenya National Missing Persons Database is a comprehensive platform designed to
+                    help families, law enforcement, and communities work together to find missing persons across all 47
+                    counties of Kenya.</p>
+                <ul class="feature-list">
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>24/7 online database accessible from anywhere</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Advanced search and filtering capabilities</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Social media integration for wider reach</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Secure and confidential reporting system</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Real-time updates and notifications</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>Multi-language support (English, Kiswahili)</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="p-4">
+                    <i class="fas fa-users text-primary" style="font-size: 8rem; opacity: 0.1;"></i>
+                    <div style="margin-top: -6rem;">
+                        <h3 class="text-primary fw-bold">Together We Find</h3>
+                        <p class="text-muted">Every missing person matters. Every family deserves answers. Every
+                            community can help.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Missing Persons Preview -->
+<section class="py-5" id="missing-persons">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-4 fw-bold text-primary mb-3">Recent Missing Persons</h2>
+                <p class="lead text-muted">Help us find these individuals - your information could make the difference
+                </p>
+            </div>
+        </div>
+
+        <!-- Recent missing persons from database -->
+        <div class="row g-4">
+            {% for person in latest_missing_persons %}
+            <div class="col-lg-4 col-md-6">
+                <div class="person-card position-relative">
+                    <div class="status-badge status-{{ person.status }}">
+                        {% if person.status == 'missing' %}Missing
+                        {% elif person.status == 'found_pending' %}Found - Pending
+                        {% elif person.status == 'found_confirmed' %}Found Safe
+                        {% endif %}
+                    </div>
+                    <div class="person-image">
+                        {% if person.photos.exists %}
+                        {% with person.photos.first as first_photo %}
+                        <img src="{{ first_photo.photo.url }}" alt="{{ person.name }}" class="img-fluid rounded">
+                        {% endwith %}
+                        {% else %}
+                        <i class="fas fa-user"></i>
+                        {% endif %}
+                    </div>
+                    <div class="person-details">
+                        <h5 class="fw-bold mb-2">{{ person.name }}</h5>
+                        {% if person.age %}
+                        <p class="text-muted mb-1"><i class="fas fa-calendar me-2"></i>Age: {{ person.age }}</p>
+                        {% endif %}
+                        <p class="text-muted mb-1"><i class="fas fa-map-marker-alt me-2"></i>Last seen:
+                            {{ person.last_seen_location }}</p>
+                        <p class="text-muted mb-3"><i class="fas fa-clock me-2"></i>{{ person.created_at|timesince }}
+                            ago</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{% url 'core:missing_person_detail' person.slug %}"
+                                class="btn btn-outline-primary btn-sm">View Details</a>
+                            <div class="social-share">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}{% url 'core:missing_person_detail' person.slug %}"
+                                    class="social-btn facebook" target="_blank" title="Share on Facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}{% url 'core:missing_person_detail' person.slug %}&text=Help find {{ person.name }}"
+                                    class="social-btn twitter" target="_blank" title="Share on Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="https://wa.me/?text=Help find {{ person.name }}: {{ request.build_absolute_uri }}{% url 'core:missing_person_detail' person.slug %}"
+                                    class="social-btn whatsapp" target="_blank" title="Share on WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="text-center py-5">
+                    <i class="fas fa-search text-muted" style="font-size: 4rem; opacity: 0.3;"></i>
+                    <h4 class="text-muted mt-3">No recent missing persons to display</h4>
+                    <p class="text-muted">Check back later or help by reporting a missing person.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{%url 'core:all_missing_persons'%}" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-list me-2"></i>View All Missing Persons
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="bg-primary text-white py-5">
+    <div class="container text-center">
+        <h2 class="display-5 fw-bold mb-3">Every Second Counts</h2>
+        <p class="lead mb-4">If you have information about any missing person, don't wait. Your tip could be the key to
+            bringing someone home.</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{%url 'core:report_missing'%}" class="btn btn-light btn-lg px-5">
+                <i class="fas fa-phone me-2"></i>Report Information
+            </a>
+            <a href="tel:999" class="btn btn-outline-light btn-lg px-5">
+                <i class="fas fa-exclamation-triangle me-2"></i>Emergency: 999
+            </a>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+    // Add click handlers for the action buttons
+    document.addEventListener('DOMContentLoaded', function () {
+        // Report missing person
+        document.querySelectorAll('a[href="#report"]').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                // You would redirect to a form page or show a modal
+                // For now, show the modal
+                new bootstrap.Modal(document.getElementById('reportModal')).show();
+            });
+        });
+
+        // Social sharing functionality
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const width = 600;
+                const height = 400;
+                const left = (screen.width / 2) - (width / 2);
+                const top = (screen.height / 2) - (height / 2);
+
+                window.open(
+                    this.href,
+                    'share',
+                    `width=${width},height=${height},left=${left},top=${top},scrollbars=yes,resizable=yes`
+                );
+            });
+        });
+    });
+</script>
+{% endblock content %}
