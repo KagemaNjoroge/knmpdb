@@ -1,6 +1,252 @@
 {%extends "base.html"%}
 
+{%block title%}All Missing Persons - KNMPDB{%endblock title%}
 
 {%block content%}
-<h1>All Missing Persons</h1>
+<div class="container py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-primary mb-1">
+                <i class="fas fa-search me-2"></i>Missing Persons Database
+            </h2>
+            <p class="text-muted">Search and filter through reported missing persons</p>
+        </div>
+    </div>
+
+    <!-- Search and Filter Form -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="get" class="row g-3" id="search-filter-form">
+                        <div class="col-md-4">
+                            <label for="search" class="form-label">Search</label>
+                            <input type="text" name="q" id="search" class="form-control"
+                                placeholder="Search by name, location, or description..." value="{{ request.GET.q }}">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select name="gender" id="gender" class="form-select">
+                                <option value="">All Genders</option>
+                                <option value="M" {% if request.GET.gender == 'M' %}selected{% endif %}>Male</option>
+                                <option value="F" {% if request.GET.gender == 'F' %}selected{% endif %}>Female</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="age_min" class="form-label">Min Age</label>
+                            <input type="number" name="age_min" id="age_min" class="form-control" placeholder="Min Age"
+                                value="{{ request.GET.age_min }}" min="0" max="120">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="age_max" class="form-label">Max Age</label>
+                            <input type="number" name="age_max" id="age_max" class="form-control" placeholder="Max Age"
+                                value="{{ request.GET.age_max }}" min="0" max="120">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">&nbsp;</label>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search me-2"></i>Search
+                                </button>
+                            </div>
+                        </div>
+                        {% if request.GET.q or request.GET.gender or request.GET.age_min or request.GET.age_max %}
+                        <div class="col-12">
+                            <a href="{% url 'core:all_missing_persons' %}" class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-times me-1"></i>Clear Filters
+                            </a>
+                        </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Summary -->
+    {% if missing_persons %}
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <span class="text-muted">
+                        Showing {{ missing_persons.start_index }}-{{ missing_persons.end_index }}
+                        of {{ missing_persons.paginator.count }} missing persons
+                    </span>
+                </div>
+                <div>
+                    <small class="text-muted">Page {{ missing_persons.number }} of
+                        {{ missing_persons.paginator.num_pages }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Missing Persons Grid -->
+    <div class="row">
+        {% for person in missing_persons %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="person-card fade-in-up">
+                <div class="person-image">
+                    {% if person.photos.all %}
+                    {% with photo=person.photos.all.0 %}
+                    <img src="{{ photo.photo.url }}" alt="{{ person.name }}" />
+                    {% endwith %}
+                    {% else %}
+                    <i class="fas fa-user-circle"></i>
+                    {% endif %}
+                    <span class="status-badge status-{{ person.status }}">
+                        {{ person.get_status_display }}
+                    </span>
+                </div>
+                <div class="person-details">
+                    <h5 class="mb-2 text-dark">{{ person.name }}</h5>
+                    <div class="row mb-2">
+                        <div class="col-6">
+                            <small class="text-muted d-block">Gender</small>
+                            <span class="fw-medium">{{ person.get_gender_display }}</span>
+                        </div>
+                        <div class="col-6">
+                            <small class="text-muted d-block">Age</small>
+                            <span class="fw-medium">{{ person.age|default:'Unknown' }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <small class="text-muted d-block">Last Seen</small>
+                        <span class="fw-medium">{{ person.last_seen_location }}</span>
+                    </div>
+                    {% if person.county %}
+                    <div class="mb-2">
+                        <small class="text-muted d-block">Location</small>
+                        <span class="fw-medium">
+                            {{ person.county }}{% if person.sub_county %}, {{ person.sub_county }}{% endif %}
+                        </span>
+                    </div>
+                    {% endif %}
+                    <p class="text-muted mb-3" style="font-size: 0.9rem;">
+                        {{ person.description|truncatewords:15 }}
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <small class="text-muted">
+                            <i class="fas fa-calendar-alt me-1"></i>
+                            {{ person.created_at|date:"M d, Y" }}
+                        </small>
+                        <a href="{% url 'core:missing_person_detail' slug=person.slug %}"
+                            class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-eye me-1"></i>View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if missing_persons.paginator.num_pages > 1 %}
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if missing_persons.has_previous %}
+            <li class="page-item">
+                <a class="page-link"
+                    href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.gender %}gender={{ request.GET.gender }}&{% endif %}{% if request.GET.age_min %}age_min={{ request.GET.age_min }}&{% endif %}{% if request.GET.age_max %}age_max={{ request.GET.age_max }}&{% endif %}page={{ missing_persons.previous_page_number }}">
+                    <i class="fas fa-chevron-left me-1"></i>Previous
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">
+                    <i class="fas fa-chevron-left me-1"></i>Previous
+                </span>
+            </li>
+            {% endif %}
+
+            {% for num in missing_persons.paginator.page_range %}
+            {% if missing_persons.number == num %}
+            <li class="page-item active">
+                <span class="page-link">{{ num }}</span>
+            </li>
+            {% elif num >= missing_persons.number|add:'-2' and num <= missing_persons.number|add:'2' %}
+            <li class="page-item">
+                <a class="page-link"
+                    href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.gender %}gender={{ request.GET.gender }}&{% endif %}{% if request.GET.age_min %}age_min={{ request.GET.age_min }}&{% endif %}{% if request.GET.age_max %}age_max={{ request.GET.age_max }}&{% endif %}page={{ num }}">{{ num }}</a>
+            </li>
+            {% elif num == 1 or num == missing_persons.paginator.num_pages %}
+            <li class="page-item">
+                <a class="page-link"
+                    href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.gender %}gender={{ request.GET.gender }}&{% endif %}{% if request.GET.age_min %}age_min={{ request.GET.age_min }}&{% endif %}{% if request.GET.age_max %}age_max={{ request.GET.age_max }}&{% endif %}page={{ num }}">{{ num }}</a>
+            </li>
+            {% elif num == missing_persons.number|add:'-3' or num == missing_persons.number|add:'3' %}
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            {% if missing_persons.has_next %}
+            <li class="page-item">
+                <a class="page-link"
+                    href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}{% if request.GET.gender %}gender={{ request.GET.gender }}&{% endif %}{% if request.GET.age_min %}age_min={{ request.GET.age_min }}&{% endif %}{% if request.GET.age_max %}age_max={{ request.GET.age_max }}&{% endif %}page={{ missing_persons.next_page_number }}">
+                    Next<i class="fas fa-chevron-right ms-1"></i>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">
+                    Next<i class="fas fa-chevron-right ms-1"></i>
+                </span>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% else %}
+    <!-- No Results -->
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center py-5">
+                <div class="mb-4">
+                    <i class="fas fa-search text-muted" style="font-size: 4rem;"></i>
+                </div>
+                <h4 class="text-muted mb-3">No Missing Persons Found</h4>
+                {% if request.GET.q or request.GET.gender or request.GET.age_min or request.GET.age_max %}
+                <p class="text-muted mb-4">
+                    No missing persons match your search criteria. Try adjusting your filters or search terms.
+                </p>
+                <a href="{% url 'core:all_missing_persons' %}" class="btn btn-outline-primary">
+                    <i class="fas fa-times me-2"></i>Clear All Filters
+                </a>
+                {% else %}
+                <p class="text-muted mb-4">
+                    There are currently no missing persons reported in the database.
+                </p>
+                <a href="{% url 'core:report_missing' %}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Report a Missing Person
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    //submit form on filter change 
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('search-filter-form');
+        const searchInput = document.getElementById('search');
+
+
+        let searchTimeout;
+        searchInput.addEventListener('input', function () {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                // submit on search after 500ms of no typing
+                // form.submit();
+            }, 500);
+        });
+    });
+</script>
 {%endblock content%}
