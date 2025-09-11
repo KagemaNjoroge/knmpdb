@@ -1,6 +1,534 @@
 {%extends "base.html"%}
+{%load static%}
 
+
+{%block title%}Report Missing Person - KNMPDB{%endblock title%}
 
 {%block content%}
-<h1>Report missing person</h1>
+<div class="container py-5">
+    <div class="row">
+        <!-- Left Sidebar - Steps -->
+        <div class="col-lg-3 col-md-4 mb-4">
+            <div class="card shadow-sm sticky-top" style="top: 100px;">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-list me-2"></i>Report Progress
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="vertical-steps">
+                        <!-- Step 1 -->
+                        <div
+                            class="vertical-step {% if current_step >= 1 %}active{% endif %} {% if current_step > 1 %}completed{% endif %}">
+                            <div class="step-connector"></div>
+                            <div class="step-content">
+                                <div class="step-number">
+                                    {% if current_step > 1 %}
+                                    <i class="fas fa-check"></i>
+                                    {% else %}
+                                    1
+                                    {% endif %}
+                                </div>
+                                <div class="step-info">
+                                    <div class="step-title">Basic Information</div>
+                                    <div class="step-description">Personal details</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div
+                            class="vertical-step {% if current_step >= 2 %}active{% endif %} {% if current_step > 2 %}completed{% endif %}">
+                            <div class="step-connector"></div>
+                            <div class="step-content">
+                                <div class="step-number">
+                                    {% if current_step > 2 %}
+                                    <i class="fas fa-check"></i>
+                                    {% else %}
+                                    2
+                                    {% endif %}
+                                </div>
+                                <div class="step-info">
+                                    <div class="step-title">Photos</div>
+                                    <div class="step-description">Upload images</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div
+                            class="vertical-step {% if current_step >= 3 %}active{% endif %} {% if current_step > 3 %}completed{% endif %}">
+                            <div class="step-connector last"></div>
+                            <div class="step-content">
+                                <div class="step-number">
+                                    {% if current_step > 3 %}
+                                    <i class="fas fa-check"></i>
+                                    {% else %}
+                                    3
+                                    {% endif %}
+                                </div>
+                                <div class="step-info">
+                                    <div class="step-title">Contact Information</div>
+                                    <div class="step-description">Emergency contacts</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9 col-md-8">
+            <!-- Form Content -->
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    {% if current_step == 1 %}
+                    <!-- Step 1: Basic Information -->
+                    <div class="step-content">
+                        <h2 class="text-primary mb-4">
+                            <i class="fas fa-user me-2"></i>Basic Information
+                        </h2>
+                        <p class="text-muted mb-4">Please provide basic details about the missing person.</p>
+
+                        <form method="post" id="basic-info-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="step" value="1">
+
+                            <div class="row">
+                                <div class="col-md-8 mb-3">
+                                    <label for="name" class="form-label">Full Name <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        value="{{ form_data.name|default:'' }}" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="age" class="form-label">Age</label>
+                                    <input type="number" class="form-control" id="age" name="age"
+                                        value="{{ form_data.age|default:'' }}" min="0" max="120">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="gender" class="form-label">Gender <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select" id="gender" name="gender" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="M" {% if form_data.gender == 'M' %}selected{% endif %}>Male
+                                        </option>
+                                        <option value="F" {% if form_data.gender == 'F' %}selected{% endif %}>Female
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="last_seen_location" class="form-label">Last Seen Location <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="last_seen_location"
+                                        name="last_seen_location" value="{{ form_data.last_seen_location|default:'' }}"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="county" class="form-label">County</label>
+                                    <select class="form-select" id="county" name="county">
+                                        <option value="">Select County</option>
+                                        <!-- Counties will be populated by JavaScript -->
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="sub_county" class="form-label">Sub County</label>
+                                    <select class="form-select" id="sub_county" name="sub_county" disabled>
+                                        <option value="">Select Sub County</option>
+                                        <!-- Sub counties will be populated by JavaScript -->
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="ward" class="form-label">Ward</label>
+                                    <select class="form-select" id="ward" name="ward" disabled>
+                                        <option value="">Select Ward</option>
+                                        <!-- Wards will be populated by JavaScript -->
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="description" class="form-label">Description <span
+                                        class="text-danger">*</span></label>
+                                <textarea class="form-control" id="description" name="description" rows="5"
+                                    placeholder="Please provide detailed description including physical appearance, clothing last seen wearing, circumstances of disappearance, etc."
+                                    required>{{ form_data.description|default:'' }}</textarea>
+                            </div>
+
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary">
+                                    Next: Add Photos <i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    {% elif current_step == 2 %}
+                    <!-- Step 2: Photos -->
+                    <div class="step-content">
+                        <h2 class="text-primary mb-4">
+                            <i class="fas fa-camera me-2"></i>Upload Photos
+                        </h2>
+                        <p class="text-muted mb-4">Upload clear, recent photos of the missing person. Multiple photos
+                            help with identification.</p>
+
+                        <form method="post" enctype="multipart/form-data" id="photos-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="step" value="2">
+
+                            <div class="photo-upload-area mb-4">
+                                <div class="upload-dropzone" id="upload-dropzone">
+                                    <div class="text-center">
+                                        <i class="fas fa-cloud-upload-alt text-primary" style="font-size: 3rem;"></i>
+                                        <h5 class="mt-3">Drag & Drop Photos Here</h5>
+                                        <p class="text-muted">or click to browse files</p>
+                                        <input type="file" id="photo-input" name="photos" multiple accept="image/*"
+                                            class="d-none">
+                                        <button type="button" class="btn btn-outline-primary"
+                                            onclick="document.getElementById('photo-input').click()">
+                                            <i class="fas fa-plus me-2"></i>Add Photos
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="photo-previews" class="row">
+                                <!-- Photo previews will be dynamically added here -->
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-outline-secondary" onclick="goToPreviousStep()">
+                                    <i class="fas fa-arrow-left me-2"></i>Previous
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    Next: Contact Info <i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    {% elif current_step == 3 %}
+                    <!-- Step 3: Contact Information -->
+                    <div class="step-content">
+                        <h2 class="text-primary mb-4">
+                            <i class="fas fa-address-book me-2"></i>Contact Information
+                        </h2>
+                        <p class="text-muted mb-4">Provide contact details for people to reach if they have information
+                            about the missing person.</p>
+
+                        <form method="post" id="contact-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="step" value="3">
+
+                            <div id="contacts-container">
+                                <div class="contact-group mb-4 p-3 border rounded">
+                                    <h5 class="text-dark mb-3">Primary Contact</h5>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="contact_name_1" class="form-label">Contact Name <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="contact_name_1"
+                                                name="contact_name_1" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="phone_number_1" class="form-label">Phone Number <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="tel" class="form-control" id="phone_number_1"
+                                                name="phone_number_1" placeholder="+254 700 000 000" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email_1" class="form-label">Email Address</label>
+                                        <input type="email" class="form-control" id="email_1" name="email_1">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn btn-outline-primary mb-4" id="add-contact-btn">
+                                <i class="fas fa-plus me-2"></i>Add Another Contact
+                            </button>
+
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>Note:</strong> This information will be displayed publicly to help people
+                                contact you if they have information about the missing person.
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-outline-secondary" onclick="goToPreviousStep()">
+                                    <i class="fas fa-arrow-left me-2"></i>Previous
+                                </button>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-check me-2"></i>Submit Report
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let contactCount = 1;
+
+    function goToPreviousStep() {
+        fetch(window.location.href, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: 'action=previous_step'
+        }).then(response => {
+            if (response.ok) {
+                window.location.reload();
+            }
+        });
+    }
+
+    function handleFiles(files) {
+        const photoPreviewsContainer = document.getElementById('photo-previews');
+
+        Array.from(files).forEach((file, index) => {
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const photoPreview = createPhotoPreview(e.target.result, file.name, index);
+                    photoPreviewsContainer.appendChild(photoPreview);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    function createPhotoPreview(src, filename, index) {
+        const col = document.createElement('div');
+        col.className = 'col-md-4 mb-3';
+
+        col.innerHTML = `
+        <div class="photo-preview-card">
+            <div class="photo-preview-image">
+                <img src="${src}" alt="${filename}" class="img-fluid">
+                <button type="button" class="btn btn-danger btn-sm photo-remove-btn" onclick="removePhoto(this)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-2">
+                <input type="text" class="form-control form-control-sm mb-2" 
+                       name="photo_description_${index}" placeholder="Photo description (optional)">
+                <input type="text" class="form-control form-control-sm" 
+                       name="photo_alt_text_${index}" placeholder="Alternative text (optional)">
+            </div>
+        </div>
+    `;
+
+        return col;
+    }
+
+    function removePhoto(button) {
+        button.closest('.col-md-4').remove();
+    }
+
+    function addNewContact() {
+        contactCount++;
+        const contactsContainer = document.getElementById('contacts-container');
+
+        const newContact = document.createElement('div');
+        newContact.className = 'contact-group mb-4 p-3 border rounded';
+        newContact.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="text-dark mb-0">Contact ${contactCount}</h5>
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeContact(this)">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="contact_name_${contactCount}" class="form-label">Contact Name</label>
+                <input type="text" class="form-control" id="contact_name_${contactCount}" name="contact_name_${contactCount}">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="phone_number_${contactCount}" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="phone_number_${contactCount}" name="phone_number_${contactCount}" 
+                       placeholder="+254 700 000 000">
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="email_${contactCount}" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="email_${contactCount}" name="email_${contactCount}">
+        </div>
+    `;
+
+        contactsContainer.appendChild(newContact);
+    }
+
+    function removeContact(button) {
+        button.closest('.contact-group').remove();
+    }
+
+    // Location Data Management
+    let locationData = {};
+
+    // Load location data on page load
+    async function loadLocationData() {
+        try {
+            const response = await fetch('{% static "data/counties-constituencies-wards.json" %}');
+            locationData = await response.json();
+            populateCounties();
+        } catch (error) {
+            console.error('Error loading location data:', error);
+        }
+    }
+
+    function populateCounties() {
+        const countySelect = document.getElementById('county');
+        if (!countySelect) return;
+
+        // Clear existing options except the first one
+        countySelect.innerHTML = '<option value="">Select County</option>';
+
+        // Add counties to dropdown
+        Object.keys(locationData).forEach(county => {
+            const option = document.createElement('option');
+            option.value = county;
+            option.textContent = county;
+            countySelect.appendChild(option);
+        });
+
+        // Set saved value if exists
+        const savedCounty = '{{ form_data.county|default:"" }}';
+        if (savedCounty) {
+            countySelect.value = savedCounty;
+            populateSubCounties(savedCounty);
+        }
+    }
+
+    function populateSubCounties(selectedCounty) {
+        const subCountySelect = document.getElementById('sub_county');
+        const wardSelect = document.getElementById('ward');
+
+        if (!subCountySelect || !wardSelect) return;
+
+        // Clear sub county dropdown
+        subCountySelect.innerHTML = '<option value="">Select Sub County</option>';
+        subCountySelect.disabled = !selectedCounty;
+
+        // Clear and disable ward dropdown
+        wardSelect.innerHTML = '<option value="">Select Ward</option>';
+        wardSelect.disabled = true;
+
+        if (selectedCounty && locationData[selectedCounty]) {
+            // Add sub counties to dropdown
+            Object.keys(locationData[selectedCounty]).forEach(subCounty => {
+                const option = document.createElement('option');
+                option.value = subCounty;
+                option.textContent = subCounty;
+                subCountySelect.appendChild(option);
+            });
+
+            // Set saved value if exists
+            const savedSubCounty = '{{ form_data.sub_county|default:"" }}';
+            if (savedSubCounty && locationData[selectedCounty][savedSubCounty]) {
+                subCountySelect.value = savedSubCounty;
+                populateWards(selectedCounty, savedSubCounty);
+            }
+        }
+    }
+
+    function populateWards(selectedCounty, selectedSubCounty) {
+        const wardSelect = document.getElementById('ward');
+
+        if (!wardSelect) return;
+
+        // Clear ward dropdown
+        wardSelect.innerHTML = '<option value="">Select Ward</option>';
+        wardSelect.disabled = !selectedSubCounty;
+
+        if (selectedCounty && selectedSubCounty &&
+            locationData[selectedCounty] &&
+            locationData[selectedCounty][selectedSubCounty]) {
+
+            // Add wards to dropdown
+            locationData[selectedCounty][selectedSubCounty].forEach(ward => {
+                const option = document.createElement('option');
+                option.value = ward;
+                option.textContent = ward;
+                wardSelect.appendChild(option);
+            });
+
+            // Set saved value if exists
+            const savedWard = '{{ form_data.ward|default:"" }}';
+            if (savedWard) {
+                wardSelect.value = savedWard;
+            }
+        }
+    }
+
+    // Event listeners for cascading dropdowns
+    document.addEventListener('DOMContentLoaded', function () {
+        // Load location data
+        loadLocationData();
+
+        // County change event
+        const countySelect = document.getElementById('county');
+        if (countySelect) {
+            countySelect.addEventListener('change', function () {
+                populateSubCounties(this.value);
+            });
+        }
+
+        // Sub county change event
+        const subCountySelect = document.getElementById('sub_county');
+        if (subCountySelect) {
+            subCountySelect.addEventListener('change', function () {
+                const selectedCounty = document.getElementById('county').value;
+                populateWards(selectedCounty, this.value);
+            });
+        }
+
+        // Existing event listeners...
+        const photoInput = document.getElementById('photo-input');
+        const uploadDropzone = document.getElementById('upload-dropzone');
+        const photoPreviewsContainer = document.getElementById('photo-previews');
+
+        if (photoInput && uploadDropzone) {
+            // Drag and drop functionality
+            uploadDropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadDropzone.classList.add('dragover');
+            });
+
+            uploadDropzone.addEventListener('dragleave', () => {
+                uploadDropzone.classList.remove('dragover');
+            });
+
+            uploadDropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadDropzone.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files);
+            });
+
+            photoInput.addEventListener('change', (e) => {
+                handleFiles(e.target.files);
+            });
+        }
+
+        // Add contact functionality
+        const addContactBtn = document.getElementById('add-contact-btn');
+        if (addContactBtn) {
+            addContactBtn.addEventListener('click', addNewContact);
+        }
+    });
+</script>
 {%endblock content%}

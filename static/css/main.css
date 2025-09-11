@@ -482,6 +482,54 @@ body {
   }
 }
 
+/* Navbar Logo Styles */
+.navbar-logo {
+  height: 40px;
+  width: 40px;
+  transition: all 0.3s ease;
+}
+
+.navbar-logo:hover {
+  transform: scale(1.1);
+}
+
+.navbar-brand {
+  transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+  transform: translateY(-1px);
+}
+
+/* Responsive navbar logo */
+@media (max-width: 768px) {
+  .navbar-logo {
+    height: 35px;
+    width: 35px;
+  }
+}
+
+/* Footer Logo Styles */
+.footer-logo {
+  height: 50px;
+  width: 50px;
+  filter: brightness(1.2);
+  transition: all 0.3s ease;
+}
+
+.footer-logo:hover {
+  transform: scale(1.05);
+  filter: brightness(1.4);
+}
+
+/* Responsive footer logo */
+@media (max-width: 768px) {
+  .footer-logo {
+    height: 40px;
+    width: 40px;
+  }
+}
+
 /* Navigation Authentication Styles */
 .navbar .dropdown-menu {
   border: none;
@@ -609,4 +657,590 @@ body {
   right: 20px;
   z-index: 1050;
   max-width: 400px;
+}
+
+/* Multi-step Form Styling */
+.progress-steps {
+  padding: 1rem 0;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--light-gray);
+  color: var(--tech-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: 3px solid var(--light-gray);
+  transition: all 0.3s ease;
+}
+
+.step.active .step-number {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  border-color: var(--primary-blue);
+}
+
+.step-label {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--tech-gray);
+  text-align: center;
+}
+
+.step.active .step-label {
+  color: var(--primary-blue);
+}
+
+.step-connector {
+  flex: 1;
+  height: 3px;
+  background-color: var(--light-gray);
+  margin: 0 1rem;
+  align-self: center;
+  transition: all 0.3s ease;
+}
+
+.step-connector.completed {
+  background-color: var(--primary-blue);
+}
+
+/* Vertical Steps Styling */
+.vertical-steps {
+  padding: 1rem 0;
+}
+
+.vertical-step {
+  position: relative;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--light-gray);
+  transition: all 0.3s ease;
+}
+
+.vertical-step:last-child {
+  border-bottom: none;
+}
+
+.vertical-step:hover {
+  background-color: rgba(5, 144, 235, 0.02);
+}
+
+.vertical-step.active {
+  background-color: rgba(5, 144, 235, 0.05);
+  border-left: 4px solid var(--primary-blue);
+}
+
+.vertical-step.completed {
+  background-color: rgba(40, 167, 69, 0.05);
+  border-left: 4px solid var(--success-green);
+}
+
+.vertical-step .step-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.vertical-step .step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--light-gray);
+  color: var(--tech-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 2px solid var(--light-gray);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.vertical-step.active .step-number {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  border-color: var(--primary-blue);
+}
+
+.vertical-step.completed .step-number {
+  background-color: var(--success-green);
+  color: var(--white);
+  border-color: var(--success-green);
+}
+
+.vertical-step .step-info {
+  flex-grow: 1;
+}
+
+.vertical-step .step-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--dark);
+  margin-bottom: 0.25rem;
+}
+
+.vertical-step.active .step-title {
+  color: var(--primary-blue);
+}
+
+.vertical-step.completed .step-title {
+  color: var(--success-green);
+}
+
+.vertical-step .step-description {
+  font-size: 0.85rem;
+  color: var(--tech-gray);
+  margin: 0;
+}
+
+/* Sticky positioning for the steps sidebar */
+.sticky-top {
+  position: sticky;
+  top: 100px;
+  z-index: 1020;
+}
+
+/* Photo Upload Styling */
+.upload-dropzone {
+  border: 2px dashed var(--light-gray);
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  background-color: var(--light-gray);
+}
+
+.upload-dropzone:hover,
+.upload-dropzone.dragover {
+  border-color: var(--primary-blue);
+  background-color: rgba(5, 144, 235, 0.05);
+}
+
+.photo-preview-card {
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--white);
+  transition: all 0.3s ease;
+}
+
+.photo-preview-card:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.photo-preview-image {
+  position: relative;
+  height: 150px;
+  overflow: hidden;
+}
+
+.photo-preview-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-remove-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+}
+
+/* Contact Form Styling */
+.contact-group {
+  background-color: var(--light-gray);
+  transition: all 0.3s ease;
+}
+
+.contact-group:hover {
+  background-color: rgba(5, 144, 235, 0.02);
+}
+
+/* Form Enhancements */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 0.2rem rgba(5, 144, 235, 0.25);
+  transform: translateY(-1px);
+}
+
+.form-label {
+  font-weight: 500;
+  color: var(--dark);
+  margin-bottom: 0.5rem;
+}
+
+.text-danger {
+  color: var(--danger-red) !important;
+}
+
+/* Cascading Dropdown Styling */
+.form-select:disabled {
+  background-color: var(--light-gray);
+  border-color: #dee2e6;
+  color: #6c757d;
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.form-select:disabled::placeholder {
+  color: #adb5bd;
+}
+
+/* Loading state for dropdowns */
+.form-select.loading {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 8a6 6 0 1 0 12 0A6 6 0 0 0 2 8z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  animation: spinner-border 0.75s linear infinite;
+}
+
+@keyframes spinner-border {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive adjustments for steps */
+@media (max-width: 768px) {
+  .progress-steps {
+    padding: 0.5rem 0;
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .step-label {
+    font-size: 0.8rem;
+  }
+
+  .step-connector {
+    margin: 0 0.5rem;
+  }
+
+  .upload-dropzone {
+    padding: 2rem 1rem;
+  }
+
+  .photo-preview-image {
+    height: 120px;
+  }
+
+  /* Vertical steps mobile adjustments */
+  .vertical-step {
+    padding: 0.75rem 1rem;
+  }
+
+  .vertical-step .step-content {
+    gap: 0.75rem;
+  }
+
+  .vertical-step .step-number {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+
+  .vertical-step .step-title {
+    font-size: 0.9rem;
+  }
+
+  .vertical-step .step-description {
+    font-size: 0.8rem;
+  }
+
+  /* Stack layout on mobile */
+  .sticky-top {
+    position: relative;
+    top: auto;
+  }
+} /* Missing Person Detail Page */
+.photo-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.photo-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.photo-zoom {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.photo-zoom:hover {
+  transform: scale(1.02);
+}
+
+.photo-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.75rem;
+}
+
+.info-item {
+  padding: 0.75rem 0;
+}
+
+.info-item strong {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.description-box {
+  border-left: 4px solid var(--primary-blue);
+  line-height: 1.7;
+}
+
+.contact-item {
+  transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+  background-color: rgba(5, 144, 235, 0.02);
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin: -0.5rem;
+}
+
+.contact-details a {
+  color: var(--dark);
+  transition: color 0.3s ease;
+}
+
+.contact-details a:hover {
+  color: var(--primary-blue);
+}
+
+.emergency-contact {
+  padding: 0.75rem;
+  background-color: var(--light-gray);
+  border-radius: 8px;
+  border-left: 4px solid var(--danger-red);
+}
+
+.emergency-contact h6 {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+/* Card enhancements for detail page */
+.card-header {
+  font-weight: 600;
+  border: none;
+}
+
+.card-header h5 {
+  font-size: 1.1rem;
+  margin-bottom: 0;
+}
+
+/* Social share buttons enhancements */
+.btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+}
+
+.btn-lg i {
+  font-size: 1.1rem;
+}
+
+/* Status badge styling */
+.badge.bg-danger {
+  background: linear-gradient(135deg, var(--danger-red), #e85a4f) !important;
+}
+
+.badge.bg-primary {
+  background: linear-gradient(
+    135deg,
+    var(--primary-blue),
+    var(--light-blue)
+  ) !important;
+}
+
+/* Alert enhancements */
+.alert-warning {
+  border: none;
+  background: linear-gradient(
+    135deg,
+    rgba(253, 126, 20, 0.1),
+    rgba(255, 179, 71, 0.1)
+  );
+  border-left: 4px solid var(--warning-orange);
+}
+
+.alert-heading {
+  color: var(--warning-orange);
+  font-weight: 600;
+}
+
+/* Modal enhancements */
+.modal-content {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--light-gray);
+  padding: 1.5rem;
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+/* Partners Section */
+.partners-section {
+  padding: 5rem 0;
+}
+
+.partner-card {
+  position: relative;
+  background: var(--white);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  height: 150px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.partner-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.partner-logo {
+  max-width: 120px;
+  max-height: 80px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: all 0.3s ease;
+  filter: grayscale(30%);
+  display: block;
+  margin: 0 auto;
+}
+
+.partner-card:hover .partner-logo {
+  filter: grayscale(0%);
+  transform: scale(1.05);
+}
+
+.partner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary-blue), var(--light-blue));
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: all 0.3s ease;
+  padding: 1rem;
+  text-align: center;
+}
+
+.partner-card:hover .partner-overlay {
+  opacity: 0.95;
+}
+
+.partner-overlay h6 {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.partner-overlay p {
+  font-size: 0.85rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Responsive partner cards */
+@media (max-width: 768px) {
+  .partner-card {
+    height: 120px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .partner-logo {
+    max-width: 100px;
+    max-height: 60px;
+  }
+
+  .partner-overlay h6 {
+    font-size: 0.9rem;
+  }
+
+  .partner-overlay p {
+    font-size: 0.8rem;
+  }
+} /* Responsive adjustments for detail page */
+@media (max-width: 768px) {
+  .info-item {
+    padding: 0.5rem 0;
+  }
+
+  .description-box {
+    padding: 1rem !important;
+  }
+
+  .contact-item {
+    text-align: center;
+  }
+
+  .emergency-contact {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .btn-lg {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.95rem;
+  }
 }

@@ -1,30 +1,6 @@
 from django.db import models
-import os
-from uuid import uuid4
 from django_extensions.db.models import AutoSlugField
-import phonenumbers
-
-
-def format_phone_number(phone_number):
-    """
-    Format the phone number to international format.
-    """
-    try:
-        phone_number = phonenumbers.parse(phone_number, "KE")
-        return phonenumbers.format_number(
-            phone_number, phonenumbers.PhoneNumberFormat.INTERNATIONAL
-        )
-    except phonenumbers.NumberParseException:
-        raise ValueError("Invalid phone number format")
-
-
-def generate_unique_filename(instance, filename):
-    """
-    Generate a unique filename using UUID while preserving the original file extension
-    """
-    ext = os.path.splitext(filename)[1]
-    filename = f"{uuid4()}{ext}"
-    return os.path.join(instance.get_upload_path(), filename)
+from .utils import format_phone_number, generate_unique_filename
 
 
 class Status(models.TextChoices):
@@ -34,6 +10,10 @@ class Status(models.TextChoices):
 
 
 class TimestampedModel(models.Model):
+    """
+    Abstract model for timestamp fields
+    """
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -42,8 +22,11 @@ class TimestampedModel(models.Model):
 
 
 class MissingPersonPhoto(TimestampedModel):
+
     photo = models.ImageField(upload_to=generate_unique_filename)
     description = models.TextField(blank=True)
+    alternative_text = models.CharField(max_length=255, blank=True)
+    is_primary = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Photo {self.id} - {self.description[:20]}"
@@ -100,3 +83,18 @@ class MissingPerson(TimestampedModel):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        # Save the object first to get an ID
+        super().save(*args, **kwargs)
+
+        # Then handle photo primary setting if photos exist
+        if (
+            self.pk
+            and self.photos.exists()
+            and not self.photos.filter(is_primary=True).exists()
+        ):
+            first_photo = self.photos.first()
+            if first_photo:
+                first_photo.is_primary = True
+                first_photo.save()

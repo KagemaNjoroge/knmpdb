@@ -13,10 +13,10 @@
                 <p class="hero-subtitle fade-in-up">Leveraging technology and community support to help families reunite
                     with their loved ones across Kenya.</p>
                 <div class="d-flex gap-3 flex-wrap fade-in-up">
-                    <a href="#report" class="btn btn-light btn-lg px-4 py-3">
+                    <a href="{%url 'core:report_missing'%}" class="btn btn-light btn-lg px-4 py-3">
                         <i class="fas fa-plus-circle me-2"></i>Report Missing Person
                     </a>
-                    <a href="#missing-persons" class="btn btn-outline-light btn-lg px-4 py-3">
+                    <a href="{%url 'core:all_missing_persons'%}" class="btn btn-outline-light btn-lg px-4 py-3">
                         <i class="fas fa-search me-2"></i>Search Database
                     </a>
                 </div>
@@ -28,6 +28,8 @@
         </div>
     </div>
 </section>
+
+{# hard coded stats for now - later fetch from db #}
 
 <!-- Quick Stats -->
 <section class="stats-section">
@@ -79,7 +81,7 @@
                     <h4>Report Missing Person</h4>
                     <p>File a missing person report with detailed information, photos, and last known location to help
                         in the search efforts.</p>
-                    <a href="#report" class="btn btn-primary">Report Now</a>
+                    <a href="{%url 'core:report_missing'%}" class="btn btn-primary">Report Now</a>
                     <div class="mt-3">
                         <small class="text-muted">Share this page:</small>
                         <div class="social-share mt-2">
@@ -129,7 +131,7 @@
                     <h4>Search Database</h4>
                     <p>Browse through our comprehensive database of missing persons. Use filters by location, age,
                         gender, and date to find specific cases.</p>
-                    <a href="#missing-persons" class="btn btn-warning">Search Now</a>
+                    <a href="{%url 'core:all_missing_persons'%}" class="btn btn-warning">Search Now</a>
                     <div class="mt-3">
                         <small class="text-muted">Recent Updates:</small>
                         <div class="mt-2">
@@ -272,6 +274,10 @@
         </div>
     </div>
 </section>
+
+<!-- Partners Section -->
+{% include 'partials/partners.html' %}
+
 
 <!-- Call to Action -->
 <section class="bg-primary text-white py-5">
