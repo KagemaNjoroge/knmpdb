@@ -7,6 +7,8 @@ from .views import (
     about,
     missing_person_detail,
     favicon_ico,
+    privacy_policy,
+    terms_of_service,
 )
 
 
@@ -23,4 +25,6 @@ urlpatterns = [
         name="missing_person_detail",
     ),
     path("about/", about, name="about"),
+    path("privacy-policy/", privacy_policy, name="privacy_policy"),
+    path("terms-of-service/", terms_of_service, name="terms_of_service"),
 ]

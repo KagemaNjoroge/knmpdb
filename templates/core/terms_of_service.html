@@ -1,0 +1,143 @@
+{%extends "base.html"%}
+
+{%block title%}Terms of Service - KNMPDB{%endblock title%}
+
+{%block content%}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <h1 class="text-primary mb-4">Terms of Service</h1>
+                    <p class="text-muted mb-4"><strong>Last updated:</strong> September 11, 2025</p>
+
+                    <div class="mb-4">
+                        <h3 class="text-dark">Acceptance of Terms</h3>
+                        <p>By accessing and using the Kenya National Missing Persons Database (KNMPDB), you accept and
+                            agree to be bound by the terms and provision of this agreement.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-dark">Purpose and Use</h3>
+                        <p>KNMPDB is a platform designed to:</p>
+                        <ul>
+                            <li>Facilitate the reporting of missing persons</li>
+                            <li>Provide a searchable database to help locate missing individuals</li>
+                            <li>Connect families, law enforcement, and the public in search efforts</li>
+                            <li>Maintain accurate records of missing person cases</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-dark">User Responsibilities</h3>
+                        <h5>When using our platform, you agree to:</h5>
+                        <ul>
+                            <li>Provide accurate and truthful information</li>
+                            <li>Only report legitimate missing person cases</li>
+                            <li>Respect the privacy and dignity of missing persons and their families</li>
+                            <li>Not use the platform for fraudulent or illegal purposes</li>
+                            <li>Keep your account credentials secure</li>
+                            <li>Update information when circumstances change</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-dark">Prohibited Uses</h3>
+                        <p>You may not use KNMPDB to:</p>
+                        <ul>
+                            <li>Submit false or misleading information</li>
+                            <li>Harass, stalk, or intimidate individuals</li>
+                            <li>Violate any local, state, or national laws</li>
+                            <li>Infringe on intellectual property rights</li>
+                            <li>Distribute malware or harmful content</li>
+                            <li>Attempt to gain unauthorized access to our systems</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-dark">Content and Information</h3>
+                        <ul>
+                            <li><strong>Accuracy:</strong> While we strive to maintain accurate information, we cannot
+                                guarantee the completeness or accuracy of all data</li>
+                            <li><strong>User Content:</strong> You retain ownership of content you submit but grant us
+                                license to use it for platform purposes</li>
+                            <li><strong>Public Information:</strong> Missing person reports are made publicly available
+                                to aid in searches</li>
+                            <li><strong>Removal:</strong> We reserve the right to remove content that violates these
+                                terms</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-dark">Privacy and Data Protection</h3>
+                        <p>Your privacy is important to us. Please review our <a href="{% url 'core:privacy_policy' %}"
+                                class="text-primary">Privacy Policy</a> to understand how we collect, use, and protect
+                            your information.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-dark">Law Enforcement Cooperation</h3>
+                        <p>KNMPDB cooperates fully with law enforcement agencies and may share information when:</p>
+                        <ul>
+                            <li>Required by law or legal process</li>
+                            <li>Necessary for missing person investigations</li>
+                            <li>Needed to protect public safety</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-dark">Disclaimers</h3>
+                        <ul>
+                            <li>KNMPDB is a tool to assist in missing person searches but does not replace professional
+                                investigation services</li>
+                            <li>We are not responsible for the outcome of missing person cases</li>
+                            <li>The platform is provided "as is" without warranties of any kind</li>
+                            <li>We do not guarantee uninterrupted or error-free service</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-dark">Limitation of Liability</h3>
+                        <p>KNMPDB and its operators shall not be liable for any direct, indirect, incidental, special,
+                            or consequential damages resulting from the use or inability to use this platform.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-dark">Account Termination</h3>
+                        <p>We reserve the right to terminate or suspend accounts that violate these terms or engage in
+                            inappropriate behavior.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-dark">Changes to Terms</h3>
+                        <p>We may update these terms from time to time. Continued use of the platform after changes
+                            constitutes acceptance of the new terms.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-dark">Governing Law</h3>
+                        <p>These terms are governed by the laws of Kenya. Any disputes will be resolved in Kenyan
+                            courts.</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-dark">Contact Information</h3>
+                        <p>For questions about these terms or to report violations:</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-envelope text-primary me-2"></i>Email: support@knmpdb.org</li>
+                            <li><i class="fas fa-phone text-primary me-2"></i>Phone: +254 700 000 000</li>
+                            <li><i class="fas fa-map-marker-alt text-primary me-2"></i>Address: Nairobi, Kenya</li>
+                        </ul>
+                    </div>
+
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Emergency:</strong> If you have information about a missing person or are in immediate
+                        danger, contact local emergency services (999) immediately.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock content%}

@@ -16,7 +16,15 @@
                 <small>&copy; 2025 Kenya National Missing Persons Database. All rights reserved.</small>
             </div>
             <div class="col-md-6 text-md-end">
-                <small>Powered by technology for humanity</small>
+                <div class="d-flex justify-content-md-end justify-content-start gap-3 mb-2">
+                    <a href="{% url 'core:privacy_policy' %}" class="text-light text-decoration-none">
+                        <small>Privacy Policy</small>
+                    </a>
+                    <a href="{% url 'core:terms_of_service' %}" class="text-light text-decoration-none">
+                        <small>Terms of Service</small>
+                    </a>
+                </div>
+                <small class="text-muted">Powered by technology for humanity</small>
             </div>
         </div>
     </div>
