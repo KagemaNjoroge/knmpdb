@@ -257,6 +257,7 @@ def report_missing(request):
 
 def all_missing_persons(request):
     page = request.GET.get("page", 1)
+    items_per_page = request.GET.get("page_items", 12)
 
     # search and filter parameters
     search_query = request.GET.get("q", "").strip()
@@ -303,7 +304,7 @@ def all_missing_persons(request):
     # prefetch related data
     all_missing_persons = all_missing_persons.prefetch_related("photos", "contacts")
 
-    paginator = Paginator(all_missing_persons, 12)  # 12 persons per page
+    paginator = Paginator(all_missing_persons, items_per_page)  # 12 persons per page
     missing_persons = paginator.get_page(page)
 
     return render(
