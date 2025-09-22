@@ -22,7 +22,9 @@ ALLOWED_HOSTS = [
     "knmpdb-kagemanjoroge4656-f1vhh55x.leapcell.dev",
     "localhost",
     "0.0.0.0:8000",
-
+    "127.0.0.1",
+    "127.0.0.1:8000",
+    "127.0.0.1:8080",
 ]
 
 
@@ -106,9 +108,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "knmpdb.wsgi.application"
 
 
-DATABASES = {
-    "default": dj_database_url.parse(os.getenv("POSTGRES_URL"))
-}
+DATABASES = {"default": dj_database_url.parse(os.getenv("POSTGRES_URL"))}
 
 
 AUTH_PASSWORD_VALIDATORS = [
