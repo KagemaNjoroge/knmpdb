@@ -17,7 +17,12 @@ SECRET_KEY = os.getenv(
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "knmpdb-kagemanjoroge4656-f1vhh55x.leapcell.dev",
+    "localhost",
+    "0.0.0.0:8000",
+    
+]
 
 
 INSTALLED_APPS = [
