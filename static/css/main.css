@@ -536,12 +536,16 @@ body {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   padding: 0.5rem 0;
+  min-width: 200px;
+  right: 0;
+  left: auto;
 }
 
 .navbar .dropdown-item {
   padding: 0.75rem 1.5rem;
   color: var(--dark);
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .navbar .dropdown-item:hover {
@@ -554,6 +558,125 @@ body {
   width: 20px;
 }
 
+/* Prevent horizontal scrolling */
+.navbar .nav-item.dropdown {
+  position: static;
+}
+
+/* Ensure no horizontal overflow */
+body {
+  overflow-x: hidden;
+}
+
+.navbar-nav {
+  overflow: visible;
+}
+
+@media (min-width: 992px) {
+  .navbar .nav-item.dropdown {
+    position: relative;
+  }
+
+  body {
+    overflow-x: auto;
+  }
+}
+
+/* Enhanced Share Modal Styles */
+.modal-content {
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.modal-header.bg-primary {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, #4a90e2 100%);
+}
+
+.modal-header .bg-white {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Social Media Button Styles */
+.btn-facebook {
+  background: linear-gradient(135deg, #1877f2 0%, #42a5f5 100%);
+  border: none;
+  color: white;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+}
+
+.btn-facebook:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(24, 119, 242, 0.3);
+  color: white;
+}
+
+.btn-twitter {
+  background: linear-gradient(135deg, #1da1f2 0%, #0084b4 100%);
+  border: none;
+  color: white;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+}
+
+.btn-twitter:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(29, 161, 242, 0.3);
+  color: white;
+}
+
+.btn-whatsapp {
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  border: none;
+  color: white;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+}
+
+.btn-whatsapp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+  color: white;
+}
+
+/* Copy Link Input Enhancement */
+.modal .input-group .form-control {
+  border-right: none;
+  background-color: #f8f9fa;
+  border-radius: 8px 0 0 8px;
+}
+
+.modal .input-group .btn {
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+}
+
+.modal .form-text {
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Modal Animation Enhancement */
+.modal.fade .modal-dialog {
+  transform: scale(0.9) translateY(-50px);
+  transition: all 0.3s ease;
+}
+
+.modal.show .modal-dialog {
+  transform: scale(1) translateY(0);
+}
 .nav-link.btn {
   border-radius: 20px;
   padding: 8px 20px !important;
@@ -1220,7 +1343,9 @@ body {
   .partner-overlay p {
     font-size: 0.8rem;
   }
-} /* Responsive adjustments for detail page */
+}
+
+/* Responsive adjustments for detail page */
 @media (max-width: 768px) {
   .info-item {
     padding: 0.5rem 0;
@@ -1242,5 +1367,109 @@ body {
   .btn-lg {
     padding: 0.625rem 1.25rem;
     font-size: 0.95rem;
+  }
+}
+
+/* Dashboard Styles */
+.stats-card {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+}
+
+.stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.stats-icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.stats-number {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stats-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-header {
+  background-color: transparent !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 1.5rem 1.5rem 1rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(5, 144, 235, 0.02);
+}
+
+.avatar-placeholder {
+  background: linear-gradient(135deg, var(--light-gray), #e9ecef);
+}
+
+.badge {
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+}
+
+.btn-group .btn {
+  border-radius: 6px;
+  margin-right: 2px;
+}
+
+.btn-group .btn:last-child {
+  margin-right: 0;
+}
+
+/* Corporate color adjustments */
+.bg-primary.bg-opacity-10 {
+  background-color: rgba(5, 144, 235, 0.1) !important;
+}
+
+.bg-danger.bg-opacity-10 {
+  background-color: rgba(220, 53, 69, 0.1) !important;
+}
+
+.bg-success.bg-opacity-10 {
+  background-color: rgba(40, 167, 69, 0.1) !important;
+}
+
+.bg-warning.bg-opacity-10 {
+  background-color: rgba(253, 126, 20, 0.1) !important;
+}
+
+/* Dashboard responsive adjustments */
+@media (max-width: 768px) {
+  .stats-number {
+    font-size: 1.5rem;
+  }
+
+  .stats-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .table-responsive {
+    font-size: 0.9rem;
   }
 }
