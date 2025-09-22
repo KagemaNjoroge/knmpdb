@@ -6,3 +6,5 @@ python-dotenv==1.0.1
 django-allauth[socialaccount]
 django-bootstrap5==25.2
 Faker==37.6.0
+# deployment
+gunicorn==23.0.0
