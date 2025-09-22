@@ -1,0 +1,467 @@
+{%extends "console/base.html"%}
+{%block title%}Dashboard - KNMPDB{%endblock%}
+{%block content%}
+
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 text-dark fw-bold mb-0">Dashboard</h1>
+                    <p class="text-muted mb-0">Kenya National Missing Persons Database Overview</p>
+                </div>
+                <div class="text-muted">
+                    <i class="fas fa-calendar me-2"></i>
+                    <span>Last updated: {% now "M d, Y" %}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row g-4 mb-5">
+        <!-- Total Missing Persons -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card stats-card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center">
+                        <div class="stats-icon bg-primary bg-opacity-10 rounded-circle me-3">
+                            <i class="fas fa-users text-primary"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h3 class="stats-number text-primary mb-1">{{ total_missing|default:0 }}</h3>
+                            <p class="stats-label text-muted mb-0">Total Cases</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Still Missing -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card stats-card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center">
+                        <div class="stats-icon bg-danger bg-opacity-10 rounded-circle me-3">
+                            <i class="fas fa-exclamation-triangle text-danger"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h3 class="stats-number text-danger mb-1">{{ still_missing|default:0 }}</h3>
+                            <p class="stats-label text-muted mb-0">Active Cases</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Found Cases -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card stats-card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center">
+                        <div class="stats-icon bg-success bg-opacity-10 rounded-circle me-3">
+                            <i class="fas fa-heart text-success"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h3 class="stats-number text-success mb-1">{{ resolved_cases|default:0 }}</h3>
+                            <p class="stats-label text-muted mb-0">Resolved Cases</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Median Age -->
+        <div class="col-xl-3 col-md-6">
+            <div class="card stats-card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center">
+                        <div class="stats-icon bg-warning bg-opacity-10 rounded-circle me-3">
+                            <i class="fas fa-chart-line text-warning"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h3 class="stats-number text-warning mb-1">
+                                {% if median_age %}{{ median_age|floatformat:0 }}{% else %}--{% endif %}
+                            </h3>
+                            <p class="stats-label text-muted mb-0">Median Age Of Missing Persons</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Insights -->
+    <div class="row g-4 mb-5">
+        <!-- Most Affected County -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-transparent border-0 pb-0">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                        Most Affected County
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if county_with_most_missing %}
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <h4 class="text-dark mb-1">{{ county_with_most_missing.county|default:"Not specified" }}
+                            </h4>
+                            <p class="text-muted mb-0">{{ county_with_most_missing.count }} cases reported</p>
+                        </div>
+                        <div class="text-primary">
+                            <i class="fas fa-arrow-up" style="font-size: 1.5rem;"></i>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p class="text-muted mb-0">No data available</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Gender Distribution -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-transparent border-0 pb-0">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-pie text-primary me-2"></i>
+                        Gender Distribution
+                    </h5>
+                </div>
+                <div class="card-body">
+
+                    <div class="row text-center">
+                        {% for gender_stat in gender_stats %}
+                        <div class="col-6">
+                            <h4 class="text-dark mb-1">{{ gender_stat.count }}</h4>
+                            <p class="text-muted mb-0">
+                                {% if gender_stat.gender == 'M' %}
+                                <i class="fa fa-male"></i>
+                                Male
+                                {% elif gender_stat.gender == 'F' %}
+                                <i class="fa fa-female"></i>
+                                Female
+                                {% else %}Not specified
+                                {% endif %}
+                            </p>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Cases Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0 pb-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-list text-primary me-2"></i>
+                            Recent Cases
+                        </h5>
+                        <a href="#" class="text-primary text-decoration-none">
+                            <small>View all <i class="fas fa-arrow-right ms-1"></i></small>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+
+
+                    {% if page_items %}
+
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table id="dashboardTable" class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="border-0 text-muted fw-semibold">Name</th>
+                                    <th class="border-0 text-muted fw-semibold">Gender</th>
+                                    <th class="border-0 text-muted fw-semibold">Age</th>
+                                    <th class="border-0 text-muted fw-semibold">County</th>
+                                    <th class="border-0 text-muted fw-semibold">Status</th>
+                                    <th class="border-0 text-muted fw-semibold" data-orderable="false">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for missing_person in page_items %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar-placeholder bg-light rounded-circle me-3 d-flex align-items-center justify-content-center"
+                                                style="width: 40px; height: 40px;">
+                                                <i class="fas fa-user text-muted"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="mb-0 text-dark">{{ missing_person.name }}</h6>
+                                                <small
+                                                    class="text-muted">{{ missing_person.created_at|date:"M d, Y" }}</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-light text-dark">
+                                            {% if missing_person.gender == 'M' %}Male
+                                            {% elif missing_person.gender == 'F' %}Female
+                                            {% else %}Not specified
+                                            {% endif %}
+                                        </span>
+                                    </td>
+                                    <td data-order="{{ missing_person.age|default:0 }}">
+                                        <span class="text-dark">{{ missing_person.age|default:"--" }}</span>
+                                    </td>
+                                    <td>
+                                        <span
+                                            class="text-dark">{{ missing_person.county|default:"Not specified" }}</span>
+                                    </td>
+                                    <td
+                                        data-order="{% if missing_person.status == 'missing' %}1{% elif missing_person.status == 'found_pending' %}2{% elif missing_person.status == 'found_confirmed' %}3{% else %}0{% endif %}">
+                                        {% if missing_person.status == 'missing' %}
+                                        <span class="badge bg-danger">Missing</span>
+                                        {% elif missing_person.status == 'found_pending' %}
+                                        <span class="badge bg-warning">Found - Pending</span>
+                                        {% elif missing_person.status == 'found_confirmed' %}
+                                        <span class="badge bg-success">Found</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">{{ missing_person.status|title }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary"
+                                                title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <a class="btn btn-sm btn-outline-secondary" title="Edit"
+                                                href="{% url 'console:edit_report' missing_person.slug %}">
+                                                <i class="fas fa-edit"></i>
+
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-outline-info share-btn"
+                                                title="Share"
+                                                data-url="{% url 'core:missing_person_detail' slug=missing_person.slug %}">
+                                                <i class="fas fa-share-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-inbox text-muted mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="text-muted">No cases found</h5>
+                        <p class="text-muted">There are currently no missing person cases in the database.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Enhanced Share Modal -->
+<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-primary text-white border-0">
+                <div class="d-flex align-items-center">
+                    <div class=" rounded-circle p-2 me-3">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title mb-0 fw-bold" id="shareModalLabel">Share Missing Person Report</h5>
+                        <small class="text-white-50">Help spread the word to find missing persons</small>
+                    </div>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="text-center mb-4">
+                    <p class="text-muted mb-3">Choose your preferred platform to share this report:</p>
+                </div>
+
+                <!-- Social Media Buttons -->
+                <div class="row g-3 mb-4">
+                    <div class="col-4">
+                        <a href="#" class="btn btn-facebook w-100 d-flex flex-column align-items-center p-3"
+                            id="shareFacebook" target="_blank" referrerpolicy="no-referrer">
+                            <i class="fab fa-facebook-f fa-2x mb-2"></i>
+                            <span class="small fw-semibold">Facebook</span>
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a href="#" class="btn btn-twitter w-100 d-flex flex-column align-items-center p-3"
+                            id="shareTwitter" target="_blank" referrerpolicy="no-referrer">
+                            <i class="fab fa-x-twitter fa-2x mb-2"></i>
+                            <span class="small fw-semibold">Twitter</span>
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a href="#" class="btn btn-whatsapp w-100 d-flex flex-column align-items-center p-3"
+                            id="shareWhatsApp" target="_blank" referrerpolicy="no-referrer">
+                            <i class="fab fa-whatsapp fa-2x mb-2"></i>
+                            <span class="small fw-semibold">WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="row">
+                    <div class="col">
+                        <hr class="my-4">
+                        <div class="text-center">
+                            <small class="text-muted">Or copy the link directly</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Copy Link Section -->
+                <div class="row">
+                    <div class="col">
+                        <label for="shareLink" class="form-label text-muted small fw-semibold">Direct Link</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control form-control-lg" id="shareLink" readonly>
+                            <button class="btn btn-outline-primary btn-lg" id="copyLinkBtn" type="button"
+                                data-bs-toggle="tooltip" data-bs-placement="top" title="Copy to clipboard">
+                                <i class="fas fa-copy me-2"></i>Copy
+                            </button>
+                        </div>
+                        <div class="form-text">
+                            <i class="fas fa-info-circle me-1"></i>
+                            This link will take people directly to the missing person's profile page.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Close
+                </button>
+                <button type="button" class="btn btn-primary" id="shareMoreBtn">
+                    <i class="fas fa-ellipsis-h me-2"></i>More Options
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
+
+{% block extra_js %}
+<script>
+
+
+    function shareUrl(url) {
+        // Show enhanced share modal
+        const fullUrl = window.location.origin + url;
+        const title = 'Missing Person Report - Help Us Find Them';
+        const description = 'Please help us spread the word about this missing person.';
+
+        // Social media links
+        const facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(fullUrl)}`;
+        const twitterLink = `https://twitter.com/intent/tweet?url=${encodeURIComponent(fullUrl)}&text=${encodeURIComponent(title + ' - ' + description)}`;
+        const whatsappLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(title + '\n\n' + description + '\n\n' + fullUrl)}`;
+
+        // Set links in modal
+        $('#shareFacebook').attr('href', facebookLink);
+        $('#shareTwitter').attr('href', twitterLink);
+        $('#shareWhatsApp').attr('href', whatsappLink);
+        $('#shareLink').val(fullUrl);
+
+        // Show modal with enhanced animation
+        const shareModal = new bootstrap.Modal(document.getElementById('shareModal'));
+        shareModal.show();
+
+        // Enhanced copy functionality
+        $('#copyLinkBtn').off('click').on('click', function () {
+            const button = $(this);
+            const originalText = button.html();
+
+            navigator.clipboard.writeText(fullUrl).then(() => {
+                // Success feedback
+                button.html('<i class="fas fa-check me-2"></i>Copied!');
+                button.removeClass('btn-outline-primary').addClass('btn-success');
+
+                // Show success tooltip
+                button.attr('data-bs-original-title', 'Successfully copied to clipboard!').tooltip('show');
+
+                // Reset after 2 seconds
+                setTimeout(() => {
+                    button.html(originalText);
+                    button.removeClass('btn-success').addClass('btn-outline-primary');
+                    button.attr('data-bs-original-title', 'Copy to clipboard');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                // Fallback for older browsers
+                const input = document.getElementById('shareLink');
+                input.select();
+                input.setSelectionRange(0, 99999);
+                document.execCommand('copy');
+
+                button.html('<i class="fas fa-check me-2"></i>Copied!');
+                button.removeClass('btn-outline-primary').addClass('btn-success');
+                setTimeout(() => {
+                    button.html(originalText);
+                    button.removeClass('btn-success').addClass('btn-outline-primary');
+                }, 2000);
+            });
+        });
+
+        // More options button functionality
+        $('#shareMoreBtn').off('click').on('click', function () {
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: description,
+                    url: fullUrl
+                }).catch(console.error);
+            } else {
+                // Fallback: create additional share options
+                alert('Additional sharing options:\n\n• Copy the link and paste it anywhere\n• Send via email\n• Share in messaging apps\n• Post on other social platforms');
+            }
+        });
+
+        // Initialize tooltips
+        $('[data-bs-toggle="tooltip"]').tooltip();
+    }
+
+
+    // Wait for everything to load
+    $(document).ready(function () {
+
+        // Simple DataTables initialization
+        if ($('#dashboardTable').length > 0) {
+            try {
+                $('#dashboardTable').DataTable({
+                    "responsive": true,
+                    "pageLength": 25,
+                    "order": [[0, "asc"]]
+                });
+
+            } catch (error) {
+                console.error('DataTables error:', error);
+            }
+        } else {
+            console.error('Table not found!');
+        }
+
+        // Share button click
+        $('.share-btn').on('click', function () {
+            const url = $(this).data('url');
+            shareUrl(url);
+        });
+    });
+</script>
+{% endblock %}
