@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import dj_database_url
 
 # take environment variables from .env file
 load_dotenv()
@@ -21,7 +22,7 @@ ALLOWED_HOSTS = [
     "knmpdb-kagemanjoroge4656-f1vhh55x.leapcell.dev",
     "localhost",
     "0.0.0.0:8000",
-    
+
 ]
 
 
@@ -106,10 +107,7 @@ WSGI_APPLICATION = "knmpdb.wsgi.application"
 
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.parse(os.getenv("POSTGRES_URL"))
 }
 
 
